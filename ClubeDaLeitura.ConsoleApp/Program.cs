@@ -1,4 +1,11 @@
-﻿while (true)
+﻿using ClubeDaLeitura.ConsoleApp.Dominio;
+
+Caixa caixaTeste = new Caixa();
+
+string texto = "abc";
+
+
+while (true)
 {
     Console.Clear();
     Console.WriteLine("---------------------------------");
