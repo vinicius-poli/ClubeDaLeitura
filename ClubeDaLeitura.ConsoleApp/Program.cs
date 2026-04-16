@@ -1,9 +1,9 @@
-﻿using ClubeDaLeitura.ConsoleApp.Dominio;
+﻿using ClubeDaLeitura.ConsoleApp.Apresentacao;
+using ClubeDaLeitura.ConsoleApp.Infraestrutura;
 
-Caixa caixaTeste = new Caixa();
+RepositorioCaixa repositorioCaixa = new RepositorioCaixa();
 
-string texto = "abc";
-
+TelaCaixa telaCaixa = new TelaCaixa(repositorioCaixa);
 
 while (true)
 {
@@ -32,6 +32,24 @@ while (true)
 
         if (opcaoMenuPrincipal == "1")
         {
+            opcaoMenuInterno = telaCaixa.ObterOpcaoMenu();
+
+            if (opcaoMenuInterno == "S")
+            {
+                Console.Clear();
+                break;
+            }
+            else if (opcaoMenuInterno == "1")
+                telaCaixa.Cadastrar();
+
+            else if (opcaoMenuInterno == "2")
+                telaCaixa.Editar();
+                
+            else if (opcaoMenuInterno == "3")
+                telaCaixa.Excluir();
+
+            else if (opcaoMenuInterno == "4")
+                telaCaixa.VisualizarTodos();
 
         }
 
