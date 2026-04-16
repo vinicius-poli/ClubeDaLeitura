@@ -43,34 +43,16 @@ public class TelaCaixa
         Console.WriteLine($"O registro \"{novaCaixa.Id}\" foi cadastrado com sucesso!");
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Digite ENTER para continuar...");        
-        Console.WriteLine("---------------------------------");        
-        
+        Console.WriteLine("---------------------------------");
+        Console.ReadLine();                
     }    
 
-    internal void Editar()
+    public void Editar()
     {
         ExibirCabecalho("Edição de Caixa");
 
-        Console.WriteLine(
-            "{0, -7} |  {1, -20} | {2,-10} | {3, -20}",
-            "id", "Etiqueta", "Cor", "Tempo de Empréstimo"
-        );
-
-        Caixa?[] caixas = repositorioCaixa.SelecionarTodas();
-
-        for (int i = 0; i < caixas.Length; i++)
-        {
-            Caixa? c = caixas[i];
-
-            if (c == null)
-                continue;
-            
-            Console.WriteLine(
-                "{0, -7} |  {1, -20} | {2,-10} | {3, -20}",
-                c.Id, c.Etiqueta, c.Cor, c.DiasDeEmprestimo
-            );
-        }
-        
+        VisualizarTodos(deveExibirCabecalho: false);
+       
         Console.WriteLine("---------------------------------");
         
         string? idSelecionado;
@@ -108,14 +90,80 @@ public class TelaCaixa
         
     }    
 
-    internal void Excluir()
+    public void Excluir()
     {
-        throw new NotImplementedException();
+        ExibirCabecalho("Exclusão de Caixa");
+
+        VisualizarTodos(deveExibirCabecalho: false);
+      
+        Console.WriteLine("---------------------------------");
+        
+        string? idSelecionado;
+
+        do
+        {
+            Console.Write("Digite o id do registro que deseja editar: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);
+
+        bool conseguiuExcluir = repositorioCaixa.Excluir(idSelecionado);
+
+        if (!conseguiuExcluir)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Não possível encontrar o registro requisitado!");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");        
+            Console.WriteLine("---------------------------------");
+            Console.ReadLine();
+            return;   
+        }
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar...");        
+        Console.WriteLine("---------------------------------");
+        Console.ReadLine();
+
+
     }
 
-    internal void VisualizarTodos()
+    internal void VisualizarTodos(bool deveExibirCabecalho)
     {
-        throw new NotImplementedException();
+
+        if(deveExibirCabecalho)
+            ExibirCabecalho("Visualisação de Caixas");
+
+        Console.WriteLine(
+            "{0, -7} |  {1, -20} | {2,-10} | {3, -20}",
+            "id", "Etiqueta", "Cor", "Tempo de Empréstimo"
+        );
+
+        Caixa?[] caixas = repositorioCaixa.SelecionarTodas();
+
+        for (int i = 0; i < caixas.Length; i++)
+        {
+            Caixa? c = caixas[i];
+
+            if (c == null)
+                continue;
+            
+            Console.WriteLine(
+                "{0, -7} |  {1, -20} | {2,-10} | {3, -20}",
+                c.Id, c.Etiqueta, c.Cor, c.DiasDeEmprestimo
+            );
+        }
+
+        if (deveExibirCabecalho)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");         
+            Console.ReadLine();            
+        }
     }
     
 
