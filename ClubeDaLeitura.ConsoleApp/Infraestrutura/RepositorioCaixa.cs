@@ -6,7 +6,7 @@ namespace ClubeDaLeitura.ConsoleApp.Infraestrutura;
 
 public class RepositorioCaixa
 {
-    private Caixa[] caixas = new Caixa[100];
+    private Caixa?[] caixas = new Caixa[100];
 
     public void Cadastrar(Caixa novaCaixa)
     {

@@ -37,14 +37,36 @@ public class TelaCaixa
 
         Caixa novaCaixa = ObterDadosCadastrais();
 
+        string[] erros = novaCaixa.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine("---------------------------------");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i =0; i < erros.Length; i++)
+            {
+                string erro = erros[i];
+
+                Console.WriteLine(erro);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.Write("Digite ENTER para continuar...");        
+            Console.ReadLine();
+
+            Cadastrar();
+            return;
+        }
+        
+        
+        Console.ResetColor();
+
         repositorioCaixa.Cadastrar(novaCaixa);
 
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine($"O registro \"{novaCaixa.Id}\" foi cadastrado com sucesso!");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Digite ENTER para continuar...");        
-        Console.WriteLine("---------------------------------");
-        Console.ReadLine();                
+        ExibirMensagem($"O registro \"{novaCaixa.Id}\" foi cadastrado com sucesso!");               
     }    
 
     public void Editar()
@@ -68,26 +90,39 @@ public class TelaCaixa
 
         Caixa novaCaixa = ObterDadosCadastrais();
 
+        string[] erros = novaCaixa.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine("---------------------------------");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i =0; i < erros.Length; i++)
+            {
+                string erro = erros[i];
+
+                Console.WriteLine(erro);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.Write("Digite ENTER para continuar...");        
+            Console.ReadLine();
+
+            Editar();
+            return;
+        } 
+
         bool conseguiuEditar = repositorioCaixa.Editar(idSelecionado, novaCaixa);
 
         if (!conseguiuEditar)
         {
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Não possível encontrar o registro requisitado!");
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Digite ENTER para continuar...");        
-            Console.WriteLine("---------------------------------");
-            Console.ReadLine();
+            ExibirMensagem("Não possível encontrar o registro requisitado!");
             return;   
         }
 
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine($"O registro \"{idSelecionado}\" foi editado com sucesso!");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Digite ENTER para continuar...");        
-        Console.WriteLine("---------------------------------");
-        Console.ReadLine();
-        
+        ExibirMensagem($"O registro \"{idSelecionado}\" foi editado com sucesso!");        
     }    
 
     public void Excluir()
@@ -113,22 +148,11 @@ public class TelaCaixa
 
         if (!conseguiuExcluir)
         {
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Não possível encontrar o registro requisitado!");
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Digite ENTER para continuar...");        
-            Console.WriteLine("---------------------------------");
-            Console.ReadLine();
+            ExibirMensagem("Não possível encontrar o registro requisitado!");
             return;   
         }
 
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Digite ENTER para continuar...");        
-        Console.WriteLine("---------------------------------");
-        Console.ReadLine();
-
+        ExibirMensagem($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
 
     }
 
@@ -164,18 +188,7 @@ public class TelaCaixa
             Console.WriteLine("Digite ENTER para continuar...");         
             Console.ReadLine();            
         }
-    }
-    
-
-    public void ExibirCabecalho(string titulo)
-    {
-        Console.Clear();
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Gestão de Caixas");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine(titulo);        
-        Console.WriteLine("---------------------------------");
-    }
+    }   
 
     private Caixa ObterDadosCadastrais()
     {
@@ -203,7 +216,7 @@ public class TelaCaixa
             cor = "Vermelho";        
         else if (codigoCor == "2")
             cor = "Verde";        
-        else if (codigoCor == "")
+        else if (codigoCor == "3")
             cor = "Azul";
         else
             cor = "Branco";
@@ -214,5 +227,24 @@ public class TelaCaixa
         Caixa novaCaixa = new Caixa(etiqueta, cor, diasDeEmprestimo);
 
         return novaCaixa;
+    }
+
+    private void ExibirCabecalho(string titulo)
+    {
+        Console.Clear();
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Gestão de Caixas");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine(titulo);        
+        Console.WriteLine("---------------------------------");
+    }
+
+    private void ExibirMensagem(string mensagem)
+    {        
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine(mensagem);
+        Console.WriteLine("---------------------------------");
+        Console.Write("Digite ENTER para continuar...");        
+        Console.ReadLine();
     }
 }
