@@ -16,7 +16,7 @@ public class TelaRevista
     }
     public string? ObterOpcaoMenu()
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Revistas");
         Console.WriteLine("---------------------------------");
@@ -69,20 +69,136 @@ public class TelaRevista
 
     public void Editar()
     {
+        ExibirCabecalho("Edição de Revista");
+
+        VisualizarTodos(deveExibirCabecalho: false);
+       
+        Console.WriteLine("---------------------------------");
         
+        string? idSelecionado;
+
+        do
+        {
+            Console.Write("Digite o id do registro que deseja editar: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);
+
+        Revista novaRevista = ObterDadosCadastrais();
+
+        string[] erros = novaRevista.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine("---------------------------------");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i =0; i < erros.Length; i++)
+            {
+                string erro = erros[i];
+
+                Console.WriteLine(erro);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.Write("Digite ENTER para continuar...");        
+            Console.ReadLine();
+
+            Editar();
+            return;
+        } 
+
+        bool conseguiuEditar = repositorioRevista.Editar(idSelecionado, novaRevista);
+
+        if (!conseguiuEditar)
+        {
+            ExibirMensagem("Não possível encontrar o registro requisitado!");
+            return;   
+        }
+
+        ExibirMensagem($"O registro \"{idSelecionado}\" foi editado com sucesso!");    
     }
     public void Excluir()
     {
+        ExibirCabecalho("Exclusão de Revista");
+
+        VisualizarTodos(deveExibirCabecalho: false);
+      
+        Console.WriteLine("---------------------------------");
         
+        string? idSelecionado;
+
+        do
+        {
+            Console.Write("Digite o id do registro que deseja excluir: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);
+
+        bool conseguiuExcluir = repositorioRevista.Excluir(idSelecionado);
+
+        if (!conseguiuExcluir)
+        {
+            ExibirMensagem("Não possível encontrar o registro requisitado!");
+            return;   
+        }
+
+        ExibirMensagem($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
     }
     public void VisualizarTodos(bool deveExibirCabecalho)
     {
-        
+        if(deveExibirCabecalho)
+            ExibirCabecalho("Visualisação de Revistas");
+
+        Console.WriteLine(
+            "{0, -7} | {1, -25} | {2,-6} | {3, -17} | {4, -15}",
+            "id", "Título", "Edição", "Ano de Publicação", "Caixa"
+        );
+
+        Revista?[] revistas = repositorioRevista.SelecionarTodas();
+
+        for (int i = 0; i < revistas.Length; i++)
+        {
+            Revista? r = revistas[i];
+
+            if (r == null)
+                continue;
+            
+            Console.Write("{0, -7} | ", r.Id);
+            Console.Write("{0, -25} | ", r.Titulo);
+            Console.Write("{0, -6} | ", r.NumeroEdicao);
+            Console.Write("{0, -17} | ", r.AnoPublicacao);
+
+            string corSelecionada = r.Caixa.Cor;
+
+            if (corSelecionada == "Vermelho")
+                Console.ForegroundColor = ConsoleColor.Red;
+
+            else if (corSelecionada == "Verde")
+                Console.ForegroundColor = ConsoleColor.Green;
+
+            else if (corSelecionada == "Azul")
+                Console.ForegroundColor = ConsoleColor.Blue;
+
+            Console.Write("{0, -15}", r.Caixa.Etiqueta);
+
+            Console.WriteLine();
+        }
+        Console.ResetColor();
+        Console.WriteLine();
+        Console.Write("Digite ENTER para continuar...");
+        Console.ReadLine();
     }
     
     private void ExibirCabecalho(string titulo)
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Revistas");
         Console.WriteLine("---------------------------------");
@@ -114,11 +230,13 @@ public class TelaRevista
 
         Caixa? caixaSelecionada = repositorioCaixa.SelecionarPorId(idSelecionado);
 
-        return new Revista(titulo, numeroEdicao, anoPublicacao, caixaSelecionada);
+        return new Revista(titulo, numeroEdicao, anoPublicacao, caixaSelecionada, repositorioRevista);
     }
 
     private string SelecionarCaixa()
     {
+        Console.WriteLine("---------------------------------");
+
         Console.WriteLine(
             "{0, -7} |  {1, -20} | {2,-10} | {3, -20}",
             "id", "Etiqueta", "Cor", "Tempo de Empréstimo"
@@ -132,12 +250,25 @@ public class TelaRevista
 
             if (c == null)
                 continue;
+
+            string corSelecionada = c.Cor;
+
+            if (corSelecionada == "Vermelho")
+                Console.ForegroundColor = ConsoleColor.Red;
+
+            else if (corSelecionada == "Verde")
+                Console.ForegroundColor = ConsoleColor.Green;
+
+            else if (corSelecionada == "Azul")
+                Console.ForegroundColor = ConsoleColor.Blue;
             
             Console.WriteLine(
                 "{0, -7} |  {1, -20} | {2,-10} | {3, -20}",
                 c.Id, c.Etiqueta, c.Cor, c.DiasDeEmprestimo
             );
         }
+
+        Console.ResetColor();
 
         Console.WriteLine("---------------------------------");
         

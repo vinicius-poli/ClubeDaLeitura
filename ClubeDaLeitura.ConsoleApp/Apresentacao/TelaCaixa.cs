@@ -15,7 +15,7 @@ public class TelaCaixa
     }
     public string? ObterOpcaoMenu()
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Caixas");
         Console.WriteLine("---------------------------------");
@@ -137,7 +137,7 @@ public class TelaCaixa
 
         do
         {
-            Console.Write("Digite o id do registro que deseja editar: ");
+            Console.Write("Digite o id do registro que deseja excluir: ");
             idSelecionado = Console.ReadLine();
 
             if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
@@ -158,7 +158,6 @@ public class TelaCaixa
 
     internal void VisualizarTodos(bool deveExibirCabecalho)
     {
-
         if(deveExibirCabecalho)
             ExibirCabecalho("Visualisação de Caixas");
 
@@ -175,12 +174,25 @@ public class TelaCaixa
 
             if (c == null)
                 continue;
+
+            string corSelecionada = c.Cor;
+
+            if (corSelecionada == "Vermelho")
+                Console.ForegroundColor = ConsoleColor.Red;
+
+            else if (corSelecionada == "Verde")
+                Console.ForegroundColor = ConsoleColor.Green;
+
+            else if (corSelecionada == "Azul")
+                Console.ForegroundColor = ConsoleColor.Blue;
             
             Console.WriteLine(
                 "{0, -7} |  {1, -20} | {2,-10} | {3, -20}",
                 c.Id, c.Etiqueta, c.Cor, c.DiasDeEmprestimo
             );
         }
+
+        Console.ResetColor();
 
         if (deveExibirCabecalho)
         {
@@ -231,7 +243,7 @@ public class TelaCaixa
 
     private void ExibirCabecalho(string titulo)
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Caixas");
         Console.WriteLine("---------------------------------");

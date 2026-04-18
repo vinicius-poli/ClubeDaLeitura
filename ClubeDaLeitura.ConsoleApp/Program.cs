@@ -13,7 +13,7 @@ repositorioCaixa.Cadastrar(caixa);
 
 while (true)
 {
-    Console.Clear();
+    //Console.Clear();
     Console.WriteLine("---------------------------------");
     Console.WriteLine("Clube da Leitura");
     Console.WriteLine("---------------------------------");
@@ -28,7 +28,7 @@ while (true)
 
     if (opcaoMenuPrincipal == "S")
     {
-        Console.Clear();
+        //Console.Clear();
         break;
     }
 
@@ -42,7 +42,7 @@ while (true)
 
             if (opcaoMenuInterno == "S")
             {
-                Console.Clear();
+                //Console.Clear();
                 break;
             }
             else if (opcaoMenuInterno == "1")
@@ -65,7 +65,7 @@ while (true)
 
             if (opcaoMenuInterno == "S")
             {
-                Console.Clear();
+                //Console.Clear();
                 break;
             }
             else if (opcaoMenuInterno == "1")
