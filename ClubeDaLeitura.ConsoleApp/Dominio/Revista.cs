@@ -13,16 +13,16 @@ public class Revista : EntidadeBase
     public Caixa Caixa { get; set; }
 
     private RepositorioRevista repositorioRevista;
+    private RepositorioBase repositorioBase;
 
     private Revista?[] revistas = new Revista[100];
 
-    public Revista(string titulo, int numeroEdicao, int anoPublicacao, Caixa caixa, RepositorioRevista repositorioRevista)
+    public Revista(string titulo, int numeroEdicao, int anoPublicacao, Caixa caixa)
     {        
         Titulo = titulo;
         NumeroEdicao = numeroEdicao;
         AnoPublicacao = anoPublicacao;
-        Caixa = caixa;
-        this.repositorioRevista = repositorioRevista;
+        Caixa = caixa;        
     }
 
     public override string[] Validar()
@@ -52,19 +52,9 @@ public class Revista : EntidadeBase
         }
 
         if (Caixa == null)
-            erros += "O campo \"Caixa\" deve conter uma caixa válida;";
+            erros += "O campo \"Caixa\" deve conter uma caixa válida;"; 
 
-        Revista?[] revistas = repositorioRevista.SelecionarTodas();
-        
-        for (int i = 0; i < revistas.Length; i++)
-        {
-            if (revistas[i]?.Titulo == Titulo && revistas[i]?.NumeroEdicao == NumeroEdicao)
-            {
-                erros += "Já existe um item com esse \"Título\" e \"Número da Edição\";";
-            }
-        }
-       
-        return erros.Split(';', StringSplitOptions.RemoveEmptyEntries);
+        return erros.Split(';', StringSplitOptions.RemoveEmptyEntries);       
     }    
 
     public override void AtualizarRegistro(EntidadeBase novaEntidade)

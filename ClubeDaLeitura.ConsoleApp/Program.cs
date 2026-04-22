@@ -11,12 +11,8 @@ TelaRevista telaRevista = new TelaRevista(repositorioRevista, repositorioCaixa);
 Caixa caixa = new Caixa("Lancamentos", "Vermelho", 3); //(TESTE)
 repositorioCaixa.Cadastrar(caixa);
 
-Revista revista = new Revista("Spider-Man", 155, 1990, caixa, repositorioRevista);
+Revista revista = new Revista("Spider-Man", 155, 1990, caixa);
 repositorioRevista.Cadastrar(revista);
-
-EntidadeBase entidade = caixa;
-
-entidade.AtualizarRegistro(revista);
 
 
 while (true)

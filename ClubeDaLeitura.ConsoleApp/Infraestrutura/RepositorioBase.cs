@@ -5,20 +5,74 @@ namespace ClubeDaLeitura.ConsoleApp.Infraestrutura;
 
 public class RepositorioBase
 {
+    protected EntidadeBase?[] registros = new EntidadeBase[100];
+
+    public void Cadastrar(EntidadeBase novaEntidadeBase)
+    {
+        for (int i = 0; i < registros.Length; i++)
+        {
+            if (registros[i] == null)
+            {
+                registros[i] = novaEntidadeBase;
+                break;
+            }
+        }
+    }
+
     public bool Editar(string idSelecionado, EntidadeBase novaEntidadeBase)
     {
-        EntidadeBase? entidadeSelecionada = SelecionarPorId(idSelecionado);
+        EntidadeBase? registroselecionada = SelecionarPorId(idSelecionado);
 
-        if (entidadeSelecionada == null)
+        if (registroselecionada == null)
             return false;
 
-        entidadeSelecionada.AtualizarRegistro(novaEntidadeBase);
+        registroselecionada.AtualizarRegistro(novaEntidadeBase);
 
         return true;
     }
 
+    public bool Excluir(string idSelecionado)
+    {
+        for (int i = 0; i < registros.Length; i++)
+        {
+            EntidadeBase? c = registros[i];
+
+            if (c == null)
+                continue;
+
+            if (c.Id == idSelecionado)
+            {
+                registros[i] = null;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public EntidadeBase?[] SelecionarTodas()
+    {
+        return registros;
+    }
+
     public EntidadeBase? SelecionarPorId(string idSelecionado)
     {
-        return null;
+        EntidadeBase? registroselecionada = null;
+
+        for (int i = 0; i < registros.Length; i++)
+        {
+            EntidadeBase? c = registros[i];
+
+            if (c == null)
+                continue;
+
+            if (c.Id == idSelecionado)
+            {
+                registroselecionada = c;
+                break;
+            }
+        }
+
+        return registroselecionada;
     }
 }
