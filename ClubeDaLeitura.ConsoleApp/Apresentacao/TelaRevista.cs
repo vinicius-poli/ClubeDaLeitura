@@ -16,7 +16,7 @@ public class TelaRevista
     }
     public string? ObterOpcaoMenu()
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Revistas");
         Console.WriteLine("---------------------------------");
@@ -198,7 +198,7 @@ public class TelaRevista
     
     private void ExibirCabecalho(string titulo)
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Revistas");
         Console.WriteLine("---------------------------------");

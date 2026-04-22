@@ -15,7 +15,7 @@ public class TelaCaixa
     }
     public string? ObterOpcaoMenu()
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Caixas");
         Console.WriteLine("---------------------------------");
@@ -243,7 +243,7 @@ public class TelaCaixa
 
     private void ExibirCabecalho(string titulo)
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Caixas");
         Console.WriteLine("---------------------------------");

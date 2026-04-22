@@ -11,9 +11,17 @@ TelaRevista telaRevista = new TelaRevista(repositorioRevista, repositorioCaixa);
 Caixa caixa = new Caixa("Lancamentos", "Vermelho", 3); //(TESTE)
 repositorioCaixa.Cadastrar(caixa);
 
+Revista revista = new Revista("Spider-Man", 155, 1990, caixa, repositorioRevista);
+repositorioRevista.Cadastrar(revista);
+
+EntidadeBase entidade = caixa;
+
+entidade.AtualizarRegistro(revista);
+
+
 while (true)
 {
-    //Console.Clear();
+    Console.Clear();
     Console.WriteLine("---------------------------------");
     Console.WriteLine("Clube da Leitura");
     Console.WriteLine("---------------------------------");
@@ -28,7 +36,7 @@ while (true)
 
     if (opcaoMenuPrincipal == "S")
     {
-        //Console.Clear();
+        Console.Clear();
         break;
     }
 
@@ -42,7 +50,7 @@ while (true)
 
             if (opcaoMenuInterno == "S")
             {
-                //Console.Clear();
+                Console.Clear();
                 break;
             }
             else if (opcaoMenuInterno == "1")
@@ -65,7 +73,7 @@ while (true)
 
             if (opcaoMenuInterno == "S")
             {
-                //Console.Clear();
+                Console.Clear();
                 break;
             }
             else if (opcaoMenuInterno == "1")
