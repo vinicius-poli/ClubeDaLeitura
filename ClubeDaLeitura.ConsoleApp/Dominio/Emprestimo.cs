@@ -6,7 +6,8 @@ public enum StatusEmprestimo
 {
     Indefinido,
     Aberto,
-    Concluído
+    Concluído,
+    Atrasado
 }
 
 public class Emprestimo
@@ -26,6 +27,15 @@ public class Emprestimo
             return conclusao;
         }
     }
+
+    public bool EstaAtrasado
+    {
+        get
+        {   
+            return Status == StatusEmprestimo.Aberto && DateTime.Now > ConclusaoPrevista;                
+        }   
+    }
+
     public StatusEmprestimo Status { get; set; } = StatusEmprestimo.Indefinido;
 
     public Emprestimo(Revista revista, Amigo amigo)

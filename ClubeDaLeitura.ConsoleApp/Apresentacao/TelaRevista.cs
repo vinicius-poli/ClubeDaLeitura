@@ -18,7 +18,7 @@ public class TelaRevista : TelaBase
     }
     
 
-        public override void VisualizarTodos(bool deveExibirCabecalho)
+    public override void VisualizarTodos(bool deveExibirCabecalho)
     {
         if(deveExibirCabecalho)
             ExibirCabecalho("Visualisação de Revistas");

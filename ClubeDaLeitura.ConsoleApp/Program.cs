@@ -5,10 +5,12 @@ using ClubeDaLeitura.ConsoleApp.Infraestrutura;
 RepositorioCaixa repositorioCaixa = new RepositorioCaixa();
 RepositorioRevista repositorioRevista = new RepositorioRevista();
 RepositorioAmigo repositorioAmigo = new RepositorioAmigo();
+RepositorioEmprestimo repositorioEmprestimo = new RepositorioEmprestimo();
 
 TelaCaixa telaCaixa = new TelaCaixa(repositorioCaixa);
 TelaRevista telaRevista = new TelaRevista(repositorioRevista, repositorioCaixa);
 TelaAmigo telaAmigo = new TelaAmigo(repositorioAmigo);
+TelaEmprestimo telaEmprestimo = new TelaEmprestimo(repositorioEmprestimo, repositorioRevista, repositorioAmigo);
 
 Caixa caixa = new Caixa("Lancamentos", "Vermelho", 3); //(TESTE)
 repositorioCaixa.Cadastrar(caixa);
@@ -20,6 +22,9 @@ Amigo amigo = new Amigo("João", "Dona Cleide", "49 98555-5555");
 repositorioAmigo.Cadastrar(amigo);
 
 Emprestimo emprestimo = new Emprestimo(revista, amigo);
+emprestimo.Abrir();
+emprestimo.Abertura = DateTime.Now.AddDays(-5);
+repositorioEmprestimo.Cadastrar(emprestimo);
 
 
 while (true)
@@ -116,7 +121,17 @@ while (true)
 
         else if (opcaoMenuPrincipal == "4")
         {
+            opcaoMenuInterno = telaEmprestimo.ObterOpcaoMenu();
 
+            if (opcaoMenuInterno == "S")
+            {
+                Console.Clear();
+                break;
+            }
+            else if (opcaoMenuInterno == "1")
+                telaEmprestimo.Abrir();
+            else if (opcaoMenuInterno == "3")
+                telaEmprestimo.VisualizarTodos(deveExibirCabecalho: true);
         }
     }
 }
