@@ -4,6 +4,7 @@ using ClubeDaLeitura.ConsoleApp.Infraestrutura;
 
 RepositorioCaixa repositorioCaixa = new RepositorioCaixa();
 RepositorioRevista repositorioRevista = new RepositorioRevista();
+RepositorioAmigo repositorioAmigo = new RepositorioAmigo();
 
 TelaCaixa telaCaixa = new TelaCaixa(repositorioCaixa);
 TelaRevista telaRevista = new TelaRevista(repositorioRevista, repositorioCaixa);
@@ -15,6 +16,7 @@ Revista revista = new Revista("Spider-Man", 155, 1990, caixa);
 repositorioRevista.Cadastrar(revista);
 
 Amigo amigo = new Amigo("João", "Dona Cleide", "49 98555-5555");
+repositorioAmigo.Cadastrar(amigo);
 
 
 while (true)
