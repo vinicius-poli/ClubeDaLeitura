@@ -16,6 +16,108 @@ public class TelaEmprestimo
         this.repositorioEmprestimo = repositorioEmprestimo;
         this.repositorioRevista = repositorioRevista;
         this.repositorioAmigo = repositorioAmigo;
+    }    
+    
+    public string? ObterOpcaoMenu()
+    {
+                
+        Console.Clear();
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"Gestão de Empréstimos");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("1 - Abrir empréstimo");
+        Console.WriteLine("2 - Concluir empréstimo");
+        Console.WriteLine("3 - Visualizar empréstimos");
+        Console.WriteLine("S - Voltar para o início");
+        Console.WriteLine("---------------------------------");
+        Console.Write("> ");
+        string? opcaoMenu = Console.ReadLine()?.ToUpper();
+
+        return opcaoMenu;
+    }
+
+    public void Abrir()
+    {
+        Emprestimo emprestimo = ObterDadosCadastrais();
+
+        string[] erros = emprestimo.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine("---------------------------------");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i =0; i < erros.Length; i++)
+            {
+                string erro = erros[i];
+
+                Console.WriteLine(erro);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.Write("Digite ENTER para continuar...");        
+            Console.ReadLine();
+
+            Abrir();
+            return;
+        } 
+
+        emprestimo.Abrir();
+
+        repositorioEmprestimo.Cadastrar(emprestimo);
+
+        ExibirMensagem($"O empréstimo \"{emprestimo.Id}\" foi aberto e cadastrado com sucesso!");       
+    }
+
+    public void Concluir()
+    {
+        ExibirCabecalho("Conclusão de Empréstimo");
+
+        VisualizarTodos(deveExibirCabecalho: false);
+
+        Console.WriteLine("---------------------------------");
+
+        Emprestimo? emprestimoSelecionado = null;
+
+        do
+        {
+            Console.Write("Digite o id do empréstimo que deseja concluir: ");
+            string? idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                emprestimoSelecionado = repositorioEmprestimo.SelecionarPorId(idSelecionado);
+            
+        } while (emprestimoSelecionado == null);
+
+        Console.WriteLine("---------------------------------");
+
+        Console.WriteLine(
+            "{0, -7} | {1, -15} | {2,-10} | {3, -10} | {4, -15}",
+            "id", "Revista", "Amigo", "Abertura", "Conclusão Prev."
+        );
+
+        Console.WriteLine(
+            "{0, -7} | {1, -15} | {2,-10} | {3, -10} | {4, -15}",
+            emprestimoSelecionado.Id, emprestimoSelecionado.Revista.Titulo, emprestimoSelecionado.Amigo.Nome, emprestimoSelecionado.Abertura.ToShortDateString(), emprestimoSelecionado.ConclusaoPrevista.ToShortDateString()
+        );
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Deseja realmente concluir o empréstimo selecionado? (s/N)");
+        string? opcaoContinuar = Console.ReadLine()?.ToUpper();
+
+        if (opcaoContinuar != "S")
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");         
+            Console.ReadLine(); 
+            return;
+        }
+
+        emprestimoSelecionado.Concluir();
+
+        ExibirMensagem($"O empréstimo \"{emprestimoSelecionado.Id}\" foi concluído com sucesso!");
     }
 
     public void VisualizarTodos(bool deveExibirCabecalho)
@@ -70,10 +172,6 @@ public class TelaEmprestimo
 
             Console.Write("{0, -10}", status);
 
-            //Console.WriteLine(
-            //"{0, -7} |  {1, -15} | {2,-10} | {3, -10} | {4, -15} | {5, -10}",
-            //e.Id, e.Revista.Titulo, e.Amigo.Nome, e.Abertura.ToShortDateString(), e.ConclusaoPrevista.//ToShortDateString(), e.Status);
-
             Console.ResetColor();
             Console.WriteLine();
             
@@ -86,60 +184,6 @@ public class TelaEmprestimo
             Console.WriteLine("Digite ENTER para continuar...");         
             Console.ReadLine();            
         }
-    }
-
-    
-    public string? ObterOpcaoMenu()
-    {
-                
-        Console.Clear();
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine($"Gestão de Empréstimos");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("1 - Abrir empréstimo");
-        Console.WriteLine("2 - Concluir empréstimo");
-        Console.WriteLine("3 - Visualizar empréstimos");
-        Console.WriteLine("S - Voltar para o início");
-        Console.WriteLine("---------------------------------");
-        Console.Write("> ");
-        string? opcaoMenu = Console.ReadLine()?.ToUpper();
-
-        return opcaoMenu;
-    }
-
-    public void Abrir()
-    {
-        Emprestimo emprestimo = ObterDadosCadastrais();
-
-        string[] erros = emprestimo.Validar();
-
-        if (erros.Length > 0)
-        {
-            Console.WriteLine("---------------------------------");
-
-            Console.ForegroundColor = ConsoleColor.Red;
-
-            for (int i =0; i < erros.Length; i++)
-            {
-                string erro = erros[i];
-
-                Console.WriteLine(erro);
-            }
-
-            Console.ResetColor();
-            Console.WriteLine("---------------------------------");
-            Console.Write("Digite ENTER para continuar...");        
-            Console.ReadLine();
-
-            Abrir();
-            return;
-        } 
-
-        emprestimo.Abrir();
-
-        repositorioEmprestimo.Cadastrar(emprestimo);
-
-        ExibirMensagem($"O empréstimo \"{emprestimo.Id}\" foi aberto e cadastrado com sucesso!");       
     }
 
     private Emprestimo ObterDadosCadastrais()

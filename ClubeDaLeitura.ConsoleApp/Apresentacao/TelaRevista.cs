@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using ClubeDaLeitura.ConsoleApp.Apresentacao.Base;
 using ClubeDaLeitura.ConsoleApp.Dominio;
 using ClubeDaLeitura.ConsoleApp.Dominio.Base;
@@ -24,8 +25,8 @@ public class TelaRevista : TelaBase
             ExibirCabecalho("Visualisação de Revistas");
 
         Console.WriteLine(
-            "{0, -7} | {1, -25} | {2,-6} | {3, -17} | {4, -15}",
-            "id", "Título", "Edição", "Ano de Publicação", "Caixa"
+            "{0, -7} | {1, -25} | {2,-6} | {3, -17} | {4, -15} | {5, -10}",
+            "id", "Título", "Edição", "Ano de Publicação", "Status", "Caixa"
         );
 
         EntidadeBase?[] revistas = repositorioRevista.SelecionarTodas();
@@ -42,6 +43,11 @@ public class TelaRevista : TelaBase
             Console.Write("{0, -6} | ", r.NumeroEdicao);
             Console.Write("{0, -17} | ", r.AnoPublicacao);
 
+            string status = r.Status.ToString();
+                status = "Disponível";
+
+            Console.Write("{0, -15} | ", status);
+
             string corSelecionada = r.Caixa.Cor;
 
             if (corSelecionada == "Vermelho")
@@ -53,7 +59,7 @@ public class TelaRevista : TelaBase
             else if (corSelecionada == "Azul")
                 Console.ForegroundColor = ConsoleColor.Blue;
 
-            Console.Write("{0, -15}", r.Caixa.Etiqueta);
+            Console.Write("{0, -10}", r.Caixa.Etiqueta);
 
             Console.WriteLine();
         }
