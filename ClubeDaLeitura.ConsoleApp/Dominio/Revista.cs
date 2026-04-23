@@ -1,9 +1,4 @@
-using System;
-using System.Dynamic;
-using ClubeDaLeitura.ConsoleApp.Apresentacao;
 using ClubeDaLeitura.ConsoleApp.Dominio.Base;
-using ClubeDaLeitura.ConsoleApp.Infraestrutura;
-using ClubeDaLeitura.ConsoleApp.Infraestrutura.Base;
 
 namespace ClubeDaLeitura.ConsoleApp.Dominio;
 
@@ -13,9 +8,7 @@ public class Revista : EntidadeBase
     public int NumeroEdicao { get; set; }
     public int AnoPublicacao { get; set; }
     public Caixa Caixa { get; set; }
-
-    private RepositorioRevista repositorioRevista;
-    private RepositorioBase repositorioBase;
+    public StatusRevista Status { get; set; }    
 
     private Revista?[] revistas = new Revista[100];
 
@@ -67,5 +60,10 @@ public class Revista : EntidadeBase
         NumeroEdicao = novaRevista.NumeroEdicao;
         AnoPublicacao = novaRevista.AnoPublicacao;
         Caixa = novaRevista.Caixa;
+    }
+
+    public void Emprestar()
+    {
+        Status = StatusRevista.Emprestada;    
     }
 }
