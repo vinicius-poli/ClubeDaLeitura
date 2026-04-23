@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace ClubeDaLeitura.ConsoleApp.Dominio;
+namespace ClubeDaLeitura.ConsoleApp.Dominio.Base;
 
 //classe abstrata não pode ser isntanciada
 //só vai definir comportamentos e propriedades dentro do sistema
