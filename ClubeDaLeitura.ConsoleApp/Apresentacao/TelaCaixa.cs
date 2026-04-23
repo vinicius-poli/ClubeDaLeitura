@@ -9,137 +9,12 @@ public class TelaCaixa : TelaBase
 {
     private RepositorioCaixa repositorioCaixa;
 
-    public TelaCaixa(RepositorioCaixa rC) : base("Caixa")
+    public TelaCaixa(RepositorioCaixa rC) : base("Caixa", rC)
     {
         repositorioCaixa = rC;
     }    
 
-    public void Cadastrar()
-    {
-        ExibirCabecalho("Cadastro de Caixa");
-
-        Caixa novaCaixa = ObterDadosCadastrais();
-
-        string[] erros = novaCaixa.Validar();
-
-        if (erros.Length > 0)
-        {
-            Console.WriteLine("---------------------------------");
-
-            Console.ForegroundColor = ConsoleColor.Red;
-
-            for (int i =0; i < erros.Length; i++)
-            {
-                string erro = erros[i];
-
-                Console.WriteLine(erro);
-            }
-
-            Console.ResetColor();
-            Console.WriteLine("---------------------------------");
-            Console.Write("Digite ENTER para continuar...");        
-            Console.ReadLine();
-
-            Cadastrar();
-            return;
-        }
-        
-        
-        Console.ResetColor();
-
-        repositorioCaixa.Cadastrar(novaCaixa);
-
-        ExibirMensagem($"O registro \"{novaCaixa.Id}\" foi cadastrado com sucesso!");               
-    }    
-
-    public void Editar()
-    {
-        ExibirCabecalho("Edição de Caixa");
-
-        VisualizarTodos(deveExibirCabecalho: false);
-       
-        Console.WriteLine("---------------------------------");
-        
-        string? idSelecionado;
-
-        do
-        {
-            Console.Write("Digite o id do registro que deseja editar: ");
-            idSelecionado = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
-                break;
-        } while (true);
-
-        Caixa novaCaixa = ObterDadosCadastrais();
-
-        string[] erros = novaCaixa.Validar();
-
-        if (erros.Length > 0)
-        {
-            Console.WriteLine("---------------------------------");
-
-            Console.ForegroundColor = ConsoleColor.Red;
-
-            for (int i =0; i < erros.Length; i++)
-            {
-                string erro = erros[i];
-
-                Console.WriteLine(erro);
-            }
-
-            Console.ResetColor();
-            Console.WriteLine("---------------------------------");
-            Console.Write("Digite ENTER para continuar...");        
-            Console.ReadLine();
-
-            Editar();
-            return;
-        } 
-
-        bool conseguiuEditar = repositorioCaixa.Editar(idSelecionado, novaCaixa);
-
-        if (!conseguiuEditar)
-        {
-            ExibirMensagem("Não possível encontrar o registro requisitado!");
-            return;   
-        }
-
-        ExibirMensagem($"O registro \"{idSelecionado}\" foi editado com sucesso!");        
-    }    
-
-    public void Excluir()
-    {
-        ExibirCabecalho("Exclusão de Caixa");
-
-        VisualizarTodos(deveExibirCabecalho: false);
-      
-        Console.WriteLine("---------------------------------");
-        
-        string? idSelecionado;
-
-        do
-        {
-            Console.Write("Digite o id do registro que deseja excluir: ");
-            idSelecionado = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
-                break;
-        } while (true);
-
-        bool conseguiuExcluir = repositorioCaixa.Excluir(idSelecionado);
-
-        if (!conseguiuExcluir)
-        {
-            ExibirMensagem("Não possível encontrar o registro requisitado!");
-            return;   
-        }
-
-        ExibirMensagem($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
-
-    }
-
-    internal void VisualizarTodos(bool deveExibirCabecalho)
+    public override void VisualizarTodos(bool deveExibirCabecalho)
     {
         if(deveExibirCabecalho)
             ExibirCabecalho("Visualisação de Caixas");
@@ -185,7 +60,7 @@ public class TelaCaixa : TelaBase
         }
     }   
 
-    private Caixa ObterDadosCadastrais()
+    protected override EntidadeBase ObterDadosCadastrais()
     {
         Console.Write("Informe a etiqueta da caixa: ");
         string? etiqueta = Console.ReadLine();

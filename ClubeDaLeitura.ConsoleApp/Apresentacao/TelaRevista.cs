@@ -9,133 +9,14 @@ public class TelaRevista : TelaBase
     private RepositorioRevista repositorioRevista;
     private RepositorioCaixa repositorioCaixa;
 
-    public TelaRevista(RepositorioRevista rR, RepositorioCaixa rC) : base("Revista")
+    public TelaRevista(RepositorioRevista rR, RepositorioCaixa rC) : base("Revista", rR)
     {
         repositorioRevista = rR;
         repositorioCaixa = rC;
     }
     
 
-    public void Cadastrar()
-    {
-        ExibirCabecalho("Cadastro de Revista");
-
-        Revista novaRevista = ObterDadosCadastrais();
-
-        string[] erros = novaRevista.Validar();
-
-        if (erros.Length > 0)
-        {
-            Console.WriteLine("---------------------------------");
-
-            Console.ForegroundColor = ConsoleColor.Red;
-
-            for (int i =0; i < erros.Length; i++)
-            {
-                string erro = erros[i];
-
-                Console.WriteLine(erro);
-            }
-
-            Console.ResetColor();
-            Console.WriteLine("---------------------------------");
-            Console.Write("Digite ENTER para continuar...");        
-            Console.ReadLine();
-
-            Cadastrar();
-            return;
-        }
-
-        repositorioRevista.Cadastrar(novaRevista);
-
-        ExibirMensagem($"O registro \"{novaRevista.Id}\" foi cadastrado com sucesso!");
-    }    
-
-    public void Editar()
-    {
-        ExibirCabecalho("Edição de Revista");
-
-        VisualizarTodos(deveExibirCabecalho: false);
-       
-        Console.WriteLine("---------------------------------");
-        
-        string? idSelecionado;
-
-        do
-        {
-            Console.Write("Digite o id do registro que deseja editar: ");
-            idSelecionado = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
-                break;
-        } while (true);
-
-        Revista novaRevista = ObterDadosCadastrais();
-
-        string[] erros = novaRevista.Validar();
-
-        if (erros.Length > 0)
-        {
-            Console.WriteLine("---------------------------------");
-
-            Console.ForegroundColor = ConsoleColor.Red;
-
-            for (int i =0; i < erros.Length; i++)
-            {
-                string erro = erros[i];
-
-                Console.WriteLine(erro);
-            }
-
-            Console.ResetColor();
-            Console.WriteLine("---------------------------------");
-            Console.Write("Digite ENTER para continuar...");        
-            Console.ReadLine();
-
-            Editar();
-            return;
-        } 
-
-        bool conseguiuEditar = repositorioRevista.Editar(idSelecionado, novaRevista);
-
-        if (!conseguiuEditar)
-        {
-            ExibirMensagem("Não possível encontrar o registro requisitado!");
-            return;   
-        }
-
-        ExibirMensagem($"O registro \"{idSelecionado}\" foi editado com sucesso!");    
-    }
-    public void Excluir()
-    {
-        ExibirCabecalho("Exclusão de Revista");
-
-        VisualizarTodos(deveExibirCabecalho: false);
-      
-        Console.WriteLine("---------------------------------");
-        
-        string? idSelecionado;
-
-        do
-        {
-            Console.Write("Digite o id do registro que deseja excluir: ");
-            idSelecionado = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
-                break;
-        } while (true);
-
-        bool conseguiuExcluir = repositorioRevista.Excluir(idSelecionado);
-
-        if (!conseguiuExcluir)
-        {
-            ExibirMensagem("Não possível encontrar o registro requisitado!");
-            return;   
-        }
-
-        ExibirMensagem($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
-    }
-    public void VisualizarTodos(bool deveExibirCabecalho)
+        public override void VisualizarTodos(bool deveExibirCabecalho)
     {
         if(deveExibirCabecalho)
             ExibirCabecalho("Visualisação de Revistas");
@@ -180,7 +61,7 @@ public class TelaRevista : TelaBase
         Console.ReadLine();
     }    
 
-    private Revista ObterDadosCadastrais()
+    protected override EntidadeBase ObterDadosCadastrais()
     {
         Console.Write("Digite o título da revista: ");
         string? titulo = Console.ReadLine();
