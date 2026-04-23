@@ -4,33 +4,17 @@ using ClubeDaLeitura.ConsoleApp.Infraestrutura;
 
 namespace ClubeDaLeitura.ConsoleApp.Apresentacao;
 
-public class TelaRevista
+public class TelaRevista : TelaBase
 {
     private RepositorioRevista repositorioRevista;
     private RepositorioCaixa repositorioCaixa;
 
-    public TelaRevista(RepositorioRevista rR, RepositorioCaixa rC)
+    public TelaRevista(RepositorioRevista rR, RepositorioCaixa rC) : base("Revista")
     {
         repositorioRevista = rR;
         repositorioCaixa = rC;
     }
-    public string? ObterOpcaoMenu()
-    {
-        Console.Clear();
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Gestão de Revistas");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("1 - Cadastrar revista");
-        Console.WriteLine("2 - Editar revista");
-        Console.WriteLine("3 - Excluir revista");
-        Console.WriteLine("4 - Visualizar revistas");
-        Console.WriteLine("S - Voltar para o início");
-        Console.WriteLine("---------------------------------");
-        Console.Write("> ");
-        string? opcaoMenu = Console.ReadLine()?.ToUpper();
-
-        return opcaoMenu;
-    }
+    
 
     public void Cadastrar()
     {
@@ -194,26 +178,7 @@ public class TelaRevista
         Console.WriteLine();
         Console.Write("Digite ENTER para continuar...");
         Console.ReadLine();
-    }
-    
-    private void ExibirCabecalho(string titulo)
-    {
-        Console.Clear();
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Gestão de Revistas");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine(titulo);        
-        Console.WriteLine("---------------------------------");
-    }
-
-    private void ExibirMensagem(string mensagem)
-    {        
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine(mensagem);
-        Console.WriteLine("---------------------------------");
-        Console.Write("Digite ENTER para continuar...");        
-        Console.ReadLine();
-    }
+    }    
 
     private Revista ObterDadosCadastrais()
     {
