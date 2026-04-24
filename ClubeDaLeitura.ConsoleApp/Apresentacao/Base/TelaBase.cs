@@ -4,7 +4,7 @@ using ClubeDaLeitura.ConsoleApp.Infraestrutura.Base;
 
 namespace ClubeDaLeitura.ConsoleApp.Apresentacao.Base;
 
-public abstract class TelaBase
+public abstract class TelaBase : ITela
 {
     private string nomeEntidade = string.Empty;
     private RepositorioBase repositorio;
