@@ -9,6 +9,7 @@ public class Amigo : EntidadeBase
     public string NomeResponsavel { get; set; } = string.Empty;
     public string Telefone { get; set; } = string.Empty;
     public Emprestimo[] Emprestimos { get; set; } = new Emprestimo[100];
+    public Reserva[] Reservas { get; set; } = new Reserva[100];
 
     public Amigo(string nome, string nomeResponsavel, string telefone)
     {
@@ -80,4 +81,17 @@ public class Amigo : EntidadeBase
             }
         }
     }
+
+    internal void AdicionarReserva(Reserva reserva)
+    {        
+        for (int i = 0; i < Reservas.Length; i++)
+        {            
+            if (Reservas[i] == null)
+            {
+                Reservas[i] = reserva;
+                break;
+            }
+        }
+    }
+    
 }

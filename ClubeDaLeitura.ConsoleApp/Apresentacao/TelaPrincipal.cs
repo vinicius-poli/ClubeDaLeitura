@@ -9,19 +9,22 @@ public class TelaPrincipal
     private RepositorioRevista repositorioRevista;
     private RepositorioAmigo repositorioAmigo;
     private RepositorioEmprestimo repositorioEmprestimo;
+    private RepositorioReserva repositorioReserva;
 
     public TelaPrincipal
     (
         RepositorioCaixa repositorioCaixa, 
         RepositorioRevista repositorioRevista, 
         RepositorioAmigo repositorioAmigo, 
-        RepositorioEmprestimo repositorioEmprestimo
+        RepositorioEmprestimo repositorioEmprestimo,
+        RepositorioReserva repositorioReserva
     )
     {
         this.repositorioCaixa = repositorioCaixa;
         this.repositorioRevista = repositorioRevista;
         this.repositorioAmigo = repositorioAmigo;
         this.repositorioEmprestimo = repositorioEmprestimo;
+        this.repositorioReserva = repositorioReserva;
 
         Caixa caixa = new Caixa("Lancamentos", "Vermelho", 3); //(TESTE)
         repositorioCaixa.Cadastrar(caixa);
@@ -35,6 +38,8 @@ public class TelaPrincipal
         Emprestimo emprestimo = new Emprestimo(revista, amigo);
         emprestimo.Abrir();
         repositorioEmprestimo.Cadastrar(emprestimo);
+        
+        
     }
 
     public ITela? ApresentarMenuOpcoesPrincipal()
@@ -47,6 +52,7 @@ public class TelaPrincipal
         Console.WriteLine("2 - Gerenciar revistas");
         Console.WriteLine("3 - Gerenciar amigos");
         Console.WriteLine("4 - Gerenciar empréstimos");
+        Console.WriteLine("5 - Gerenciar reservas");
         Console.WriteLine("S - Sair");
         Console.WriteLine("---------------------------------");
         Console.Write("> ");
@@ -63,6 +69,9 @@ public class TelaPrincipal
         
         if (opcaoMenuPrincipal == "4")
             return new TelaEmprestimo(repositorioEmprestimo, repositorioRevista, repositorioAmigo);
+
+        if (opcaoMenuPrincipal == "5")
+            return new TelaReserva(repositorioReserva, repositorioEmprestimo, repositorioRevista, repositorioAmigo);
 
         return null;
                 

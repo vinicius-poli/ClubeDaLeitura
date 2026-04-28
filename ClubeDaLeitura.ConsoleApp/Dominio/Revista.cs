@@ -71,4 +71,9 @@ public class Revista : EntidadeBase
     {
         Status = StatusRevista.Disponível;
     }
+
+    public void Reservar()
+    {
+        Status = StatusRevista.Reservada;
+    }
 }
