@@ -17,7 +17,7 @@ public class Reserva
 
     public Amigo Amigo { get; set; }
 
-    public Emprestimo Emprestimo { get; set; }
+    //public Emprestimo Emprestimo { get; set; }
 
     public DateTime Abertura { get; set; }
 
@@ -58,7 +58,7 @@ public class Reserva
     public void Concluir()
     {
         Status = StatusReserva.Concluída;
-        Revista.Emprestar();
+        //Revista.Emprestar();
         //Amigo.AdicionarEmprestimo();
     }
 }

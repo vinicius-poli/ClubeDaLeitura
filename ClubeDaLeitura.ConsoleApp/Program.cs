@@ -90,8 +90,11 @@ while (true)
 
             else if (opcaoMenuInterno == "2")
                 telaReserva.Concluir();
-                
+
             else if (opcaoMenuInterno == "3")
+                telaReserva.Excluir();
+                
+            else if (opcaoMenuInterno == "4")
                 telaReserva.VisualizarTodos(deveExibirCabecalho: true);
         }
     }

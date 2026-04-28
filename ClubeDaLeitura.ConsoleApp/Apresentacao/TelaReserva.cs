@@ -29,7 +29,8 @@ public class TelaReserva : ITela
         Console.WriteLine("---------------------------------");
         Console.WriteLine("1 - Criar reserva");
         Console.WriteLine("2 - Concluir reserva");
-        Console.WriteLine("3 - Visualizar reservas");
+        Console.WriteLine("3 - Cancelar reserva");
+        Console.WriteLine("4 - Visualizar reservas");
         Console.WriteLine("S - Voltar para o início");
         Console.WriteLine("---------------------------------");
         Console.Write("> ");
@@ -120,6 +121,37 @@ public class TelaReserva : ITela
         reservaSelecionada.Concluir();
 
         ExibirMensagem($"A reserva \"{reservaSelecionada.Id}\" foi concluída com sucesso!");
+    }
+
+    public void Excluir()
+    {
+        ExibirCabecalho("Cancelamento de Reserva");
+
+        VisualizarTodos(deveExibirCabecalho: false);
+      
+        Console.WriteLine("---------------------------------");
+        
+        string? idSelecionado;
+
+        do
+        {
+            Console.Write("Digite o id do registro que deseja excluir: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);
+
+        bool conseguiuExcluir = repositorioReserva.Excluir(idSelecionado);
+
+        if (!conseguiuExcluir)
+        {
+            ExibirMensagem("Não possível encontrar o registro requisitado!");
+            return;   
+        }
+
+        ExibirMensagem($"O registro \"{idSelecionado}\" foi excluído com sucesso!");
+
     }
 
     public void VisualizarTodos(bool deveExibirCabecalho)

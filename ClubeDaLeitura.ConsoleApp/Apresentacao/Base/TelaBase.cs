@@ -111,7 +111,7 @@ public abstract class TelaBase : ITela
 
     public void Excluir()
     {
-        ExibirCabecalho("Exclusão de Caixa");
+        ExibirCabecalho($"Exclusão de {nomeEntidade}");
 
         VisualizarTodos(deveExibirCabecalho: false);
       
